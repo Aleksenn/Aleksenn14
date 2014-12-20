@@ -7,9 +7,8 @@ int main(void)
 	int to, tm, ye;
 	cout << "the day: \n";
 	cin >> to;
-	if (std::cin.fail())
 	{
-		std::cout << "Неккоректный ввод!" << std::endl;
+		if ((to>7)||(to<1)) cout « "Некорректный ввод" « endl;
 		return 0;
 	}
 	to = to % 7;
