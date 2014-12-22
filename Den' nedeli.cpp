@@ -8,7 +8,7 @@ int main(void)
 	cout << "the day: \n";
 	cin >> to;
 	if ((to>7)||(to<1)) 
-        {       cout « "Некорректный ввод" « endl;
+        {       cout << "incorrectly input" << endl;
 		return 0;
 	}
 	to = to % 7;
