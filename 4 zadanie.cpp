@@ -1,29 +1,51 @@
 #include <string>
-#include <ifstream>
+#include <fstream>
 #include <iostream>
+#include <conio.h>
 
-using namespace
+using namespace std;
 
-string readFile(string path) {
-	ifstream input(path);
-	input.seekg(0, std::ios::end); //перешли в конец
-	int len = input.tellg(); //получаем длину файла
-	input.seekg(0, std::ios::beg); //перешли в начало
-	char * buf = new char [len];
-	input.read(buf, len);
-	return string(buf);
+bool formatText(string rPath, string wPath) {
+	fstream rFile, rFileTemp;
+	ofstream wFile;
+	string tempString, tempString1;
+	char check;
+	int tempLength = 0, limit = 80, tempStringLen = 0;
+
+	wFile.open (wPath);
+	rFile.open(rPath);
+	if (rFile) {
+		while (!rFile.eof()) {
+			rFile >> tempString;
+			tempLength += tempString.length() + 1;
+			cout << tempLength << ' ';
+			if ( (tempLength-1) <= limit )
+						wFile << tempString << ' ';
+					else { 
+						tempLength = 0;
+						wFile << '\n' << tempString<< ' ';
+					}
+			check = rFile.get();
+			if ( (int)check == 10 )
+				wFile << char(10); 
+		}
+		wFile.close();
+		rFile.close();
+		return 1;
+	}
+	else 
+		return 0;
 }
 
-string operateStr(string base) {
-	int i = 0, space = -1, len = base.length();
-	if(len < 80) return;
-	while(i < base.length()) {
-		if(base[i] == ' ') space = i;
-		if(i == 80 && space != -1) {
-			base[space] = '\n';
-			i = space + 1;
-			space = -1;
-		}
-	}
-	return base;
+int main() {
+	string rPath, wPath;
+	cout << "Enter path of read file: ";
+	cin >> rPath;
+	cout << "Enter path of write file: ";
+	cin >> wPath;
+	if ( formatText(rPath, wPath) )
+		cout << "Check your file";
+	else
+		cout << "Can't find file";
+	_getch();
 }
