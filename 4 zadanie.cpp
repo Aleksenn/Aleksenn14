@@ -5,32 +5,31 @@
 
 using namespace std;
 
-bool formatText(string rPath, string wPath) {
-	fstream rFile, rFileTemp;
-	ofstream wFile;
-	string tempString, tempString1;
+bool formatText(string rPath, string wPath) { // Рабочая функция, в качестве параметров принимает две строки - адрес файла для чтения и для записи
+	fstream rFile; // Переменная файла для чтения
+	ofstream wFile; // Переменная файла для записи
+	string tempString;
 	char check;
-	int tempLength = 0, limit = 80, tempStringLen = 0;
+	int tempLength = 0, limit = 80;
 
-	wFile.open (wPath);
-	rFile.open(rPath);
-	if (rFile) {
-		while (!rFile.eof()) {
-			rFile >> tempString;
-			tempLength += tempString.length() + 1;
-			cout << tempLength << ' ';
-			if ( (tempLength-1) <= limit )
-						wFile << tempString << ' ';
+	wFile.open(wPath); // Открыть файл для записи, в случае, если такого не существеут, он автоматически создастся
+	rFile.open(rPath); // Открыть файл для чтения
+	if (rFile) { // Проверка, что файл открылся
+		while (!rFile.eof()) { // До тез пор, пока файл не кончился производим считывания
+			rFile >> tempString; // Считываем из файла целое слово в переменную tempString
+			tempLength += tempString.length() + 1; // Подсчитываем длину текущей строки, включая пробелы
+			if ( (tempLength-1) <= limit ) // Если ее длина меньше limit = 80
+						wFile << tempString << ' '; // То записываем в файл текущее слово
 					else { 
-						tempLength = 0;
-						wFile << '\n' << tempString<< ' ';
+						tempLength = 0; // Иначе обнуляем длину текущей строки
+						wFile << '\n' << tempString<< ' '; // И продолжаем запись с новой строки
 					}
-			check = rFile.get();
-			if ( (int)check == 10 )
-				wFile << char(10); 
+			check = rFile.get(); // Считывем символ, следующий за словом
+			if ( (int)check == 10 ) // Если это символ перевода строки
+				wFile << char(10);  // То переводим строку и в новом файле. Это нужно для сохранения строк, длина которых меньше 80 без изменения.
 		}
-		wFile.close();
-		rFile.close();
+		wFile.close(); // Закрываем файл чтения
+		rFile.close(); // Закрываем файл записи
 		return 1;
 	}
 	else 
@@ -40,12 +39,12 @@ bool formatText(string rPath, string wPath) {
 int main() {
 	string rPath, wPath;
 	cout << "Enter path of read file: ";
-	cin >> rPath;
+	cin >> rPath; // Считывем адрес файла для чтения
 	cout << "Enter path of write file: ";
-	cin >> wPath;
-	if ( formatText(rPath, wPath) )
+	cin >> wPath; // Считывем адрес файла для записи
+	if ( formatText(rPath, wPath) ) // Если файл найден, то пишем, что все норм
 		cout << "Check your file";
-	else
+	else // Если не найден, то сообщаем ооб этом
 		cout << "Can't find file";
 	_getch();
 }
