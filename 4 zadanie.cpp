@@ -12,7 +12,7 @@ bool formatText(string rPath, string wPath) { // Рабочая функция, 
 	char check;
 	int tempLength = 0, limit = 80;
 
-	wFile.openwFile.open(wPath.c_str()) ; // Открыть файл для записи, в случае, если такого не существеут, он автоматически создастся
+	wFile.open(wPath.c_str()) ; // Открыть файл для записи, в случае, если такого не существеут, он автоматически создастся
 	rFile.open(rPath); // Открыть файл для чтения
 	if (rFile) { // Проверка, что файл открылся
 		while (!rFile.eof()) { // До тез пор, пока файл не кончился производим считывания
